@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className=" ">
+    <nav className="sticky bg-white  bottom-0 z-20">
       <div className="flex justify-between items-center px-3 py-2">
         {navItems.map((item) => {
           const isActive = pathname === item.path;
