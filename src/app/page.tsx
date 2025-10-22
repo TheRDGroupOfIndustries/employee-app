@@ -1,5 +1,5 @@
 import React from "react";
-import Dhasboard from "./dashbord/page";
+import Dhasboard from "./(users)/dashbord/page";
 
 const Home = () => {
   return (
