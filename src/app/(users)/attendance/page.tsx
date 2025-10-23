@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MoveLeft, CheckCircle, Clock } from "lucide-react";
+import { MoveLeft, CheckCircle } from "lucide-react";
 
 // Helper function for getting current time and date in a readable format
 const getCurrentDateTime = () => {
@@ -20,13 +20,14 @@ const getCurrentDateTime = () => {
 };
 
 const AttendancePage: React.FC = () => {
-  // State to simulate check-in/out status
-  const [isCheckedIn, setIsCheckedIn] = useState(true);
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const [attendance, setAttendance] = useState("Check In");
   const { date, time } = getCurrentDateTime();
 
   const handleCheckInOut = () => {
-    // In a real app, this would call an API
-    setIsCheckedIn(!isCheckedIn);
+    // Toggle state
+    setIsCheckedIn((prev) => !prev);
+ setAttendance((prev)=>prev === 'Check Out'?'Check In':'Check Out')
   };
 
   return (
@@ -44,43 +45,38 @@ const AttendancePage: React.FC = () => {
 
       <div className="p-5">
         {/* 🔹 Main Status and Action */}
-        <section className="flex flex-col items-center p-6  rounded-xl shadow-lg mb-6">
-          {/* Status Display */}
+        <section className="flex flex-col items-center p-6 rounded-xl shadow-lg mb-6">
           <div className="text-center">
-            <CheckCircle className="w-16 h-16 text-red-500 mx-auto animate-pulse" />
-
-            <h2 className="text-2xl font-bold mt-3  ">
-              {" "}
-              Checked In
-            </h2>
-            <p className=" text-gray-700 mt-1">
+            <CheckCircle
+              className={`w-16 h-16 mx-auto animate-pulse ${
+                isCheckedIn ? "text-green-500" : "text-red-500"
+              }`}
+            />
+            <h2 className="text-2xl font-bold mt-3">{attendance}</h2>
+            <p className="text-gray-700 mt-1">
               {date}, {time}
             </p>
           </div>
 
-          {/* Action Button */}
           <button
             onClick={handleCheckInOut}
             className="w-full mt-6 py-3 text-red-500 font-bold rounded-2xl shadow-lg transition duration-200 ease-in-out border-2 border-red-300"
-              
           >
-             Check Out 
+            {attendance}
           </button>
         </section>
 
         {/* 🔹 Daily Stats */}
         <section className="grid grid-cols-2 gap-4 mb-6">
-          {/* Check In Time */}
-          <div className="  p-4 rounded-xl shadow-md text-center">
+          <div className="p-4 rounded-xl shadow-md text-center">
             <p className="text-sm text-gray-400 font-medium">Check-In Time</p>
-            <h2 className="text-2xl font-bold mt-1  ">
+            <h2 className="text-2xl font-bold mt-1">
               {isCheckedIn ? "09:00 AM" : "--:--"}
             </h2>
           </div>
-          {/* Hours Today */}
-          <div className="  p-4 rounded-xl shadow-md text-center">
+          <div className="p-4 rounded-xl shadow-md text-center">
             <p className="text-sm text-gray-400 font-medium">Hours Today</p>
-            <h2 className="text-2xl font-bold mt-1  ">
+            <h2 className="text-2xl font-bold mt-1">
               {isCheckedIn ? "4.5 hrs" : "0.0 hrs"}
             </h2>
           </div>
@@ -90,18 +86,15 @@ const AttendancePage: React.FC = () => {
         <section className="mb-6">
           <h2 className="text-xl font-semibold mb-3">This Week's Snapshot</h2>
           <div className="grid grid-cols-3 gap-3">
-            {/* Present Days */}
-            <div className="  p-3 rounded-xl shadow-md text-center">
+            <div className="p-3 rounded-xl shadow-md text-center">
               <p className="text-3xl font-bold text-green-400">4</p>
               <p className="text-sm mt-1">Present</p>
             </div>
-            {/* Late Days */}
-            <div className="  p-3 rounded-xl shadow-md text-center">
+            <div className="p-3 rounded-xl shadow-md text-center">
               <p className="text-3xl font-bold text-yellow-600">1</p>
-              <p className="text-sm  mt-1">Late</p>
+              <p className="text-sm mt-1">Late</p>
             </div>
-            {/* Absent Days */}
-            <div className="  p-3 rounded-xl shadow-md text-center ">
+            <div className="p-3 rounded-xl shadow-md text-center">
               <p className="text-3xl font-bold text-blue-500">0</p>
               <p className="text-sm mt-1">Absent</p>
             </div>
@@ -111,8 +104,7 @@ const AttendancePage: React.FC = () => {
         {/* 🔹 Recent History */}
         <section>
           <h2 className="text-xl font-semibold mb-3">Recent History</h2>
-          <div className="  p-4 rounded-xl shadow-md space-y-3">
-            {/* History Item 1 */}
+          <div className="p-4 rounded-xl shadow-md space-y-3">
             <div className="flex justify-between items-center border-b border-gray-700 pb-2 last:border-b-0">
               <div>
                 <p className="font-semibold">Mon, Oct 20</p>
@@ -120,7 +112,6 @@ const AttendancePage: React.FC = () => {
               </div>
               <p className="text-green-400 font-medium">Present</p>
             </div>
-            {/* History Item 2 */}
             <div className="flex justify-between items-center border-b border-gray-700 pb-2 last:border-b-0">
               <div>
                 <p className="font-semibold">Fri, Oct 17</p>
@@ -128,7 +119,6 @@ const AttendancePage: React.FC = () => {
               </div>
               <p className="text-yellow-400 font-medium">Late</p>
             </div>
-            {/* History Item 3 */}
             <div className="flex justify-between items-center border-b border-gray-700 pb-2 last:border-b-0">
               <div>
                 <p className="font-semibold">Thu, Oct 16</p>
