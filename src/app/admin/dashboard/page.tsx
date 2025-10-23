@@ -27,17 +27,16 @@
 //   );
 // }
 
-
 import Activities from "@/src/Components/admin/Activities";
 import Meetings from "@/src/Components/admin/Meetings";
 import StatsGrid from "@/src/Components/admin/StatsGrid";
 import React from "react";
 import { Download } from "lucide-react";
 
-export default function AdminDashboard() {
+export default function AdminDashboardPage() {
   return (
     <div className="flex h-screen bg-gray-50">
-      <div className="p-2 w-full">
+      <div className=" w-full">
         {/* Header Section */}
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -60,9 +59,13 @@ export default function AdminDashboard() {
         <StatsGrid />
 
         {/* Activities and Meetings */}
-        <div className="grid grid-cols-2 gap-6">
-          <Activities />
-          <Meetings />
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2">
+            <Activities />
+          </div>
+          <div className="col-span-1">
+            <Meetings />
+          </div>
         </div>
       </div>
     </div>
