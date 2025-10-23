@@ -1,0 +1,358 @@
+// -----------------------------------------------------
+// Corporate Work & Employee Management Platform
+// Database: PostgreSQL | ORM: Prisma
+// -----------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------
+// ENUMS
+// -----------------------------------------------------
+
+enum UserRole {
+  CEO
+  MD
+  BOD
+  EMPLOYEE
+}
+
+enum BadgeColor {
+  RED
+  ORANGE
+  YELLOW
+  GREEN
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  REVIEW
+  DONE
+}
+
+enum NotificationType {
+  ANNOUNCEMENT
+  ALERT
+  REMINDER
+  UPDATE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+  PLANNING
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+enum Performancestatus {
+  GREAT
+  AVERAGE
+  POOR
+}
+
+enum Certificatetype {
+  COMPETITION
+  ACHIVMENT
+  PERFOMANCE
+  TRAINING
+}
+
+enum Documenttype {
+  LETTER
+  REPORT
+}
+
+enum Meetingtype {
+  BOARDMEETING
+  ALLHEADS
+  DEPARTMENTMEETING
+  PROJECTMEETING
+}
+// -----------------------------------------------------
+// USER & ROLE
+// -----------------------------------------------------
+
+model User {
+  id                   String          @id @default(cuid())
+  name                 String
+  location             String?
+  employeeID           String?         @unique
+  depertment           String?
+  position             String?
+  email                String          @unique
+  password             String
+  role                 UserRole        @default(EMPLOYEE)
+  badgeColor           BadgeColor?     @default(YELLOW)
+  avatarUrl            String?
+  salary               Int?
+  stipend              Int?
+  documents            String[]
+  documentsimg         String[]
+  idCard               ID_CARD?        @relation("UserIDCard")
+  experienceLetter     String?
+  recommendationLetter String?
+  certificates         String[]
+  tasks                Task[]         @relation("UserTasks")
+  leaveQuota           LeaveQuota?    @relation("UserLeaveQuota")
+  notifications        Notification[]
+  attendances          Attendance[]
+  performances         Performance[]
+  userDocuments        Document[]     @relation("UserDocuments")
+  sentMessages         Message[]      @relation("SentMessages")
+  receivedMessages     Message[]      @relation("ReceivedMessages")
+  meetingsCreated      Meeting[]      @relation("CreatedMeetings")
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+}
+// -----------------------------------------------------
+// ID CARD MODEL
+// -----------------------------------------------------
+model ID_CARD {
+  id          String    @id @default(cuid())
+  user        User     @relation("UserIDCard", fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @unique
+  companyName String
+  companyLogo String?
+  userName    String
+  userPhoto   String?
+  position    String
+  issuedAt    DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+// -----------------------------------------------------
+// TASK MODEL
+// -----------------------------------------------------
+model Task {
+  id             String      @id @default(cuid())
+  title          String
+  description    String?
+  deadline       DateTime?
+  completedAt    DateTime?
+  assignedAt     DateTime?
+  attachmentUrls String[]
+  priority       Priority    @default(MEDIUM)
+  status         TaskStatus  @default(TODO)
+  assignedTo     User       @relation("UserTasks", fields: [assignedToId], references: [id], onDelete: Cascade)
+  assignedToId   String
+  project        Project    @relation("ProjectTasks", fields: [projectId], references: [id], onDelete: Cascade)
+  projectId      String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+// -----------------------------------------------------
+// Project
+// -----------------------------------------------------
+
+model Project {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  budget      Int?
+  spent       Int?           @default(0)
+  teamMembers String[]
+  priority    Priority       @default(MEDIUM)
+  status      ProjectStatus  @default(PLANNING)
+  inProgress  String?
+  tasks       Task[]        @relation("ProjectTasks")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+// -----------------------------------------------------
+// Additional Models (Leave, Meeting, Notification, PerformanceReview)
+// -----------------------------------------------------
+
+// -----------------------------------------------------
+// LEAVE MODEL
+// -----------------------------------------------------
+model LeaveQuota {
+  id            String    @id @default(cuid())
+  user          User     @relation("UserLeaveQuota", fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  totalLeaves   Int       @default(18)
+  usedLeaves    Int       @default(0)
+  pendingLeaves Int       @default(0)
+  year          Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  leaves        Leave[]
+}
+
+model Leave {
+  id         String       @id @default(cuid())
+  leaveQuota LeaveQuota  @relation(fields: [quotaId], references: [id])
+  quotaId    String
+  startDate  DateTime
+  endDate    DateTime
+  reason     String
+  status     LeaveStatus  @default(PENDING)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+// -----------------------------------------------------
+// NOTIFICATION MODEL
+// -----------------------------------------------------
+
+model Notification {
+  id              String            @id @default(cuid())
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  type            NotificationType
+  message         String
+  isRead          Boolean           @default(false)
+  relatedEntityId String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+// model NotificationCreateInput {
+//   id        String            @id @default(cuid())
+//   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId    String
+//   type      NotificationType
+//   title     String
+//   message   String
+//   createdAt DateTime          @default(now())
+//   updatedAt DateTime          @updatedAt
+// }
+
+// -----------------------------------------------------
+// Attendance MODEL
+// -----------------------------------------------------
+
+model Attendance {
+  id        String            @id @default(cuid())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  rollCall  AttendanceStatus  @default(ABSENT)
+  date      DateTime
+  checkIn   DateTime?
+  checkOut  DateTime?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  @@unique([userId, date]) // Ensure one attendance record per user per date
+}
+
+// -----------------------------------------------------
+// Performance MODEL
+// -----------------------------------------------------
+model Performance {
+  id                                                                String             @id @default(cuid())
+  user                                                              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                                                            String
+  weekStart   DateTime          // start of the week (e.g., Monday)
+  weekEnd     DateTime?          // optional: end of the week
+  status                                                            Performancestatus  @default(AVERAGE)
+  createdAt                                                         DateTime           @default(now())
+  updatedAt                                                         DateTime           @updatedAt
+
+  @@unique([userId, weekStart]) // ensures only one performance record per week
+}
+// -----------------------------------------------------
+// Cerficates MODEL
+// -----------------------------------------------------
+
+model Certificate {
+  id              String           @id @default(cuid())
+  userId          String
+  userName        String?
+  title           String
+  description     String?
+  certificateType Certificatetype
+  issuedBy        String           @default("CEO")
+  issueDate       DateTime
+  validity        DateTime?
+  certificateUrl  String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+// -----------------------------------------------------
+// Documents MODELS
+// -----------------------------------------------------
+
+model Document {
+  id           String        @id @default(cuid())
+  user         User         @relation("UserDocuments", fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  userName     String?
+  title        String
+  description  String?
+  documentType Documenttype
+  uploadedAt   DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+// -----------------------------------------------------
+// Meeting MODEL
+// -----------------------------------------------------
+
+model Meeting {
+  id           String       @id @default(cuid())
+  title        String
+  description  String
+  meetingType  Meetingtype  @default(PROJECTMEETING)
+  location     String
+  agendaItems  String[]
+  meetingLink  String?
+  attendance   String[]
+  duration     Int
+  date         DateTime
+  participants String[]
+  createdBy    User?       @relation("CreatedMeetings", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById  String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+// -----------------------------------------------------
+// chat MODEL
+// -----------------------------------------------------
+
+model Message {
+  id         String    @id @default(cuid())
+
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId   String
+
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId String
+
+  content    String
+  seen       Boolean   @default(false)
+  sentAt     DateTime  @default(now())
+}
