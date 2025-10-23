@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
@@ -12,17 +14,18 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
+  TestTube,
 } from "lucide-react";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
-  { icon: Users, label: "Employee Management", active: false },
-  { icon: Briefcase, label: "BoD & Management", active: false },
-  { icon: FolderKanban, label: "Project Management", active: false },
-  { icon: Bell, label: "Notifications", active: false },
-  { icon: Wrench, label: "HR Tools", active: false },
-  { icon: Calendar, label: "Meetings", active: false },
-  { icon: BarChart3, label: "Analytics & Reports", active: false },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
+  { icon: Users, label: "Employee Management", href: "/admin/employee-management" },
+  { icon: Briefcase, label: "BoD & Management", href: "/admin/board-management" },
+  { icon: FolderKanban, label: "Project Management", href: "/admin/project-management" },
+  { icon: Bell, label: "Notifications", href: "/notifications" },
+  { icon: Wrench, label: "HR Tools", href: "/hr-tools" },
+  { icon: Calendar, label: "Meetings", href: "/meetings" },
+  { icon: BarChart3, label: "Analytics & Reports", href: "/reports" },
 ];
 
 export default function Sidebar({
@@ -32,13 +35,15 @@ export default function Sidebar({
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
 }) {
+  const pathname = usePathname();
+
   return (
     <div
       className={`h-full flex flex-col transition-all duration-300 ${
-        collapsed ? "w-20" : "w-64"
+        collapsed ? "w-20" : "w-62"
       }`}
     >
-     
+      {/* Header */}
       <div className="p-4 border-b border-gray-300 flex items-center justify-between">
         {!collapsed && (
           <div>
@@ -60,21 +65,25 @@ export default function Sidebar({
 
       {/* Menu */}
       <nav className="p-4 space-y-1 flex-1 overflow-y-auto">
-        {menuItems.map((item, index) => (
-          <button
-            key={index}
-            className={`w-full flex items-center ${
-              collapsed ? "justify-center" : "justify-start space-x-3"
-            } px-4 py-3 rounded-lg text-sm transition-colors ${
-              item.active
-                ? "bg-red-500 text-white"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
-          >
-            <item.icon className="w-5 h-5 flex-shrink-0" />
-            {!collapsed && <span>{item.label}</span>}
-          </button>
-        ))}
+        {menuItems.map((item, index) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link key={index} href={item.href} passHref>
+              <button
+                className={`w-full flex items-center ${
+                  collapsed ? "justify-center" : "justify-start space-x-3"
+                } px-4 py-3 rounded-lg text-sm transition-colors ${
+                  isActive
+                    ? "bg-red-500 text-white"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                <item.icon className="w-5 h-5 flex-shrink-0" />
+                {!collapsed && <span>{item.label}</span>}
+              </button>
+            </Link>
+          );
+        })}
       </nav>
     </div>
   );
