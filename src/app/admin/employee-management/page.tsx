@@ -170,6 +170,16 @@ export default function EmployeeManagementPage() {
 
         {activeTab === "attendance" && <AttendanceOverview />}
       </div>
+      <EditDetailsModal
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        // employee={selectedEmployee}
+      />
+      <SendMessageModal
+        isOpen={isMessageOpen}
+        onClose={() => setIsMessageOpen(false)}
+        // employee={selectedEmployee}
+      />
     </div>
   );
 }

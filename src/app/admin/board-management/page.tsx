@@ -1,35 +1,16 @@
 "use client";
+import { useState } from "react";
 import { MemberCard } from "@/src/Components/admin/MemberCard";
 import { TabSelector } from "@/src/Components/admin/TabSelector";
 import TaskCard from "@/src/Components/admin/TaskCard";
 import { Plus } from "lucide-react";
-
-import { useState } from "react";
-
-interface Member {
-  name: string;
-  role: string;
-  department: string;
-  email: string;
-  phone: string;
-  status: "active" | "busy" | "offline";
-  activeTasks: number;
-  completedTasks: number;
-  image: string;
-}
-interface Task {
-  title: string;
-  description: string;
-  priority: "high priority" | "medium priority";
-  status: "todo" | "in progress" | "review";
-  assignedTo: string;
-  dueDate: string;
-}
+import AssignTaskModal from "@/src/Components/admin/AssignTaskModal";
 
 export default function BoardManagementPage() {
   const [activeTab, setActiveTab] = useState("board-member");
+  const [isAssignModalOpen, setAssignModalOpen] = useState(false);
 
-  const members: Member[] = [
+   const members= [
     {
       name: "Robert Johnson",
       role: "Chairman",
@@ -106,12 +87,16 @@ export default function BoardManagementPage() {
     },
   ];
 
+
   return (
     <div className="bg-gray-50 min-h-screen ">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Board & Management</h2>
-        <button className="flex font-medium items-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
+        <button
+          className="flex font-medium items-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
+          onClick={() => setAssignModalOpen(true)} // Open modal on click
+        >
           <Plus className="w-4 h-4" />
           <span>Assign Task</span>
         </button>
@@ -127,7 +112,7 @@ export default function BoardManagementPage() {
         setActiveTab={setActiveTab}
       />
 
-      {/* Member Cards */}
+      {/* Content */}
       {activeTab === "board-member" ? (
         <div className="grid md:grid-cols-3 lg:grid-cols-3 sm:grid-cols-2 gap-6">
           {members.map((member, idx) => (
@@ -141,6 +126,12 @@ export default function BoardManagementPage() {
           ))}
         </div>
       )}
+
+      {/* Assign Task Modal */}
+      <AssignTaskModal
+        isOpen={isAssignModalOpen}
+        onClose={() => setAssignModalOpen(false)}
+      />
     </div>
   );
 }

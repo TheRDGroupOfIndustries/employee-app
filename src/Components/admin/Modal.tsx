@@ -14,7 +14,7 @@ export default function Modal({ title, children, isOpen, onClose }) {
     >
       <div
         tabIndex={-1}
-        className="bg-white rounded-xl shadow-lg w-[420px] p-6 relative focus:outline-none"
+        className="bg-white rounded-xl shadow-lg w-[520px] p-6 relative focus:outline-none"
       >
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
