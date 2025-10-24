@@ -14,7 +14,6 @@ import {
   BarChart3,
   ChevronLeft,
   ChevronRight,
-  TestTube,
 } from "lucide-react";
 
 const menuItems = [
@@ -22,7 +21,7 @@ const menuItems = [
   { icon: Users, label: "Employee Management", href: "/admin/employee-management" },
   { icon: Briefcase, label: "BoD & Management", href: "/admin/board-management" },
   { icon: FolderKanban, label: "Project Management", href: "/admin/project-management" },
-  { icon: Bell, label: "Notifications", href: "/notifications" },
+  { icon: Bell, label: "Notifications", href: "/admin/internal-communication" },
   { icon: Wrench, label: "HR Tools", href: "/hr-tools" },
   { icon: Calendar, label: "Meetings", href: "/meetings" },
   { icon: BarChart3, label: "Analytics & Reports", href: "/reports" },

@@ -1,16 +1,19 @@
 "use client";
+import React, { useState } from "react";
 import KanbanBoard from "@/src/Components/admin/KanbanBoard";
 import { ProjectCard } from "@/src/Components/admin/ProjectCard";
 import { TabSelector } from "@/src/Components/admin/TabSelector";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import CreateProjectModal from "@/src/Components/admin/CreateProjectModal";
 
-const ProjectManagementPage = () => {
+export default function ProjectManagementPage() {
+  // Tabs for switching views
   const tabs = [
     { id: "overview", label: "Project Overview" },
     { id: "kanban", label: "Kanban Board" },
   ];
 
+  // Example project data
   const projectData = [
     {
       id: 1,
@@ -52,7 +55,7 @@ const ProjectManagementPage = () => {
       endDate: "3/31/2024",
       budget: 75000,
       spent: 60000,
-      teamMembers: ["Robert Johnson", "Kelly Wu"], // Placeholder members
+      teamMembers: ["Robert Johnson", "Kelly Wu"],
     },
     {
       id: 4,
@@ -66,9 +69,10 @@ const ProjectManagementPage = () => {
       endDate: "12/31/2024",
       budget: 120000,
       spent: 48000,
-      teamMembers: ["Chris Lee", "Maria Garcia", "Tom Evans"], // Placeholder members
+      teamMembers: ["Chris Lee", "Maria Garcia", "Tom Evans"],
     },
   ];
+  // Kanban-style task data
   const kanbanTasks = [
     {
       id: 1,
@@ -77,7 +81,8 @@ const ProjectManagementPage = () => {
         "Complete overhaul of legacy systems and implementation of modern digital solutions across all departments.",
       status: "In Progress",
       assignee: "John Smith",
-      time: "65%",
+      link: 1,
+      comment: 3,
     },
     {
       id: 2,
@@ -86,7 +91,8 @@ const ProjectManagementPage = () => {
         "Research and implementation plan for expanding into Southeast Asian markets.",
       status: "To Do",
       assignee: "Emily Rodriguez",
-      time: "25%",
+      link: 2,
+      comment: 5,
     },
     {
       id: 3,
@@ -95,7 +101,8 @@ const ProjectManagementPage = () => {
         "Comprehensive training program for skill development and career advancement.",
       status: "In Progress",
       assignee: "Robert Johnson",
-      time: "80%",
+      link: 1,
+      comment: 4,
     },
     {
       id: 4,
@@ -104,43 +111,66 @@ const ProjectManagementPage = () => {
         "Implementation of eco-friendly practices and carbon footprint reduction strategies.",
       status: "Review",
       assignee: "Chris Lee",
-      time: "40%",
+      link: 3,
+      comment: 2,
     },
   ];
 
+  // State for tab selection
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
-  return (
-    <div className=" bg-gray-50 min-h-screen">
-      {/* Header and New Project Button */}
-      <header className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Project Management</h1>
-        <button className="flex font-medium items-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600">
-          <Plus className="w-4 h-4" />
-          <span>New Project</span>
-        </button>
-      </header>
+  // Modal state pattern
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-      {/* Tab Selector */}
+  // Handler for opening/closing
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header row */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">
+            Project Management
+          </h2>
+         
+        </div>
+        <div>
+          {/* "New Project" button pattern */}
+          <button
+            className="flex items-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-red-600"
+            onClick={handleOpenModal}
+          >
+            <Plus className="w-4 h-4" />
+            <span>New Project</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Tab selector pattern */}
       <TabSelector
         tabs={tabs}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-    
-      {/* Project Cards Grid - Renders only for "Project Overview" tab */}
-      {activeTab === "overview" && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {projectData.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      )}
 
-      {/* Optional: Content for "Kanban Board" */}
-      {activeTab === "kanban" && <KanbanBoard tasks={kanbanTasks} />}
+      {/* Tab content */}
+      <div>
+        {/* Overview tab: show grid of project cards */}
+        {activeTab === "overview" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
+            {projectData.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        )}
+        {/* Kanban tab */}
+        {activeTab === "kanban" && <KanbanBoard tasks={kanbanTasks} />}
+      </div>
+
+      {/* Modal integration pattern */}
+      <CreateProjectModal isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
-};
-
-export default ProjectManagementPage;
+}

@@ -15,6 +15,7 @@ export default function EmployeeDetails({
     );
   }
 
+
   return (
     <div className="space-y-5">
       <div className="flex flex-col items-center text-center border-gray-200">

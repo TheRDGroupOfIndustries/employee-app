@@ -1,5 +1,5 @@
 "use client";
-import { Plus } from "lucide-react";
+import { Link, MessageCircle, Plus } from "lucide-react";
 import { useState } from "react";
 
 const KanbanBoard = ({ tasks }) => {
@@ -73,7 +73,16 @@ const KanbanBoard = ({ tasks }) => {
                     <p className="text-sm text-gray-600">{task.description}</p>
                     <div className="flex justify-between mt-2 text-xs text-gray-500">
                       <span>{task.assignee}</span>
-                      <span>{task.time}</span>
+                      <div className="flex space-x-2 items-center">
+                        <span className="flex items-center space-x-1">
+                          <Link size={14} />
+                          <span>{task.link}</span>
+                        </span>
+                        <span className="flex items-center space-x-1">
+                          <MessageCircle size={14} />
+                          <span>{task.comment}</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
