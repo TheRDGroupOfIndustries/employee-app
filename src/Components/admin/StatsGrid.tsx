@@ -38,16 +38,16 @@ const stats = [
 
 export default function StatsGrid() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {stats.map((stat, index) => (
         <div
           key={index}
-          className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+          className="bg-white rounded-xl px-6  py-6 shadow-md hover:shadow-lg transition-shadow duration-300"
         >
           <div className="flex items-start justify-between mb-4">
             <div>
               <p className="text-gray-600 text-sm mb-1">{stat.title}</p>
-              <h3 className="text-3xl font-bold text-gray-800">{stat.value}</h3>
+              <h3 className="text-2xl font-bold text-gray-800">{stat.value}</h3>
             </div>
             <div className={`${stat.bgColor} p-3 rounded-lg`}>
               <stat.icon className={`w-6 h-6 ${stat.color}`} />
