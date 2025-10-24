@@ -1,6 +1,6 @@
 "use client";
 
- import React from "react";
+import React from "react";
 import Link from "next/link";
 import {
   MoveLeft,
@@ -10,9 +10,17 @@ import {
   HelpCircle,
   Globe,
   Shield,
+  Mail,
+  Phone,
+  MapPin,
+  User,
+  CalendarDays,
+  Hash,
   Paintbrush,
   FileText,
-   CalendarCheck, CheckSquare, Star
+  CalendarCheck,
+  CheckSquare,
+  Star,
 } from "lucide-react";
 
 const ProfilePage = () => {
@@ -38,70 +46,97 @@ const ProfilePage = () => {
       </section>
 
       {/* 🔹 Employee Information */}
-      <section className="w-[90%] md:w-[85%] bg-white shadow-md rounded-2xl p-5 border border-rose-100 mb-6">
-        <h2 className="text-lg font-semibold text-rose-700 mb-4">
-          Employee Information
-        </h2>
+      <section className="w-[90%] md:w-[85%] bg-white shadow-lg rounded-2xl p-6 border border-rose-100 mb-6">
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-4 border-b pb-3">
+          <User className="text-rose-600 w-6 h-6" />
+          <h2 className="text-xl font-semibold  ">
+            Employee Information
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-5">
-          <div>
-            <p className="font-medium">Employee ID</p>
-            <p className="font-bold">RD-2024-2001</p>
+        {/* Top Info Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-5 border-b border-rose-200 text-gray-700 mb-6">
+          <div className="flex items-center gap-3 ">
+            <Hash className="text-rose-500 w-5 h-5" />
+            <div>
+              <p className="text-sm text-gray-500">Employee ID</p>
+              <p className="font-semibold">RD-2024-2001</p>
+            </div>
           </div>
-          <div>
-            <p className="font-medium">Joining Date</p>
-            <p className="font-bold">Jan 15, 2023</p>
+
+          <div className="flex items-center gap-3">
+            <CalendarDays className="text-rose-500 w-5 h-5" />
+            <div>
+              <p className="text-sm text-gray-500">Joining Date</p>
+              <p className="font-semibold">Jan 15, 2023</p>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-2">
-          <div>
-            <p className="font-medium">Email</p>
-            <p className="font-semibold text-lg">sarah.john@gmail.com</p>
+        {/* Bottom Details */}
+        <div className="space-y-4 ">
+          <div className="flex items-center gap-3 border-b border-rose-200">
+            <Mail className="text-blue-500 w-5 h-5" />
+            <div>
+              <p className="text-sm text-gray-500">Email</p>
+              <p className="font-semibold">sarah.john@gmail.com</p>
+            </div>
           </div>
-          <div>
-            <p className="font-medium">Phone</p>
-            <p className="font-semibold text-lg">+91 9876543210</p>
+
+          <div className="flex items-center gap-3 border-b border-rose-200">
+            <Phone className="text-green-500 w-5 h-5" />
+            <div>
+              <p className="text-sm text-gray-500">Phone</p>
+              <p className="font-semibold">+91 9876543210</p>
+            </div>
           </div>
-          <div>
-            <p className="font-medium">Manager</p>
-            <p className="font-semibold text-lg">John Smith</p>
+
+          <div className="flex items-center gap-3 border-b border-rose-200">
+            <User className="text-purple-500 w-5 h-5" />
+            <div>
+              <p className="text-sm text-gray-500">Manager</p>
+              <p className="font-semibold">John Smith</p>
+            </div>
           </div>
-          <div>
-            <p className="font-medium">Location</p>
-            <p className="font-semibold text-lg">Noida, India</p>
+
+          <div className="flex items-center gap-3 border-b border-rose-200">
+            <MapPin className="text-orange-500 w-5 h-5" />
+            <div>
+              <p className="text-sm text-gray-500">Location</p>
+              <p className="font-semibold">Noida, India</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* 🔹 Stats */}
 
-<section className="w-[90%] md:w-[85%] grid grid-cols-3 gap-4 mb-6">
-  <div className="bg-white shadow-md rounded-2xl p-5 border border-rose-100 text-center">
-    <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
-      <CalendarCheck className="w-5 h-5 text-green-600" />
-    </div>
-    <p className="text-sm text-gray-500">Attendance</p>
-    <h3 className="text-lg font-bold text-green-500">95%</h3>
-  </div>
+      <section className="w-[90%] md:w-[85%] grid grid-cols-3 gap-4 mb-6">
+        <div className="bg-white shadow-md rounded-2xl p-5 border border-rose-100 text-center">
+          <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
+            <CalendarCheck className="w-5 h-5 text-green-600" />
+          </div>
+          <p className="text-sm text-gray-500">Attendance</p>
+          <h3 className="text-lg font-bold text-green-500">95%</h3>
+        </div>
 
-  <div className="bg-white shadow-md rounded-2xl p-5 border border-rose-100 text-center">
-    <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-purple-100 flex items-center justify-center">
-      <CheckSquare className="w-5 h-5 text-purple-600" />
-    </div>
-    <p className="text-sm text-gray-500">Tasks</p>
-    <h3 className="text-lg font-bold text-purple-600">30</h3>
-  </div>
+        <div className="bg-white shadow-md rounded-2xl p-5 border border-rose-100 text-center">
+          <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-purple-100 flex items-center justify-center">
+            <CheckSquare className="w-5 h-5 text-purple-600" />
+          </div>
+          <p className="text-sm text-gray-500">Tasks</p>
+          <h3 className="text-lg font-bold text-purple-600">30</h3>
+        </div>
 
-  <div className="bg-white shadow-md rounded-2xl p-5 border border-rose-100 text-center">
-    <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
-      <Star className="w-5 h-5 text-blue-600" />
-    </div>
-    <p className="text-sm text-gray-500">Rating</p>
-    <h3 className="text-lg font-bold text-blue-600">4.8</h3>
-  </div>
-</section>
-
+        <div className="bg-white shadow-md rounded-2xl p-5 border border-rose-100 text-center">
+          <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
+            <Star className="w-5 h-5 text-blue-600" />
+          </div>
+          <p className="text-sm text-gray-500">Rating</p>
+          <h3 className="text-lg font-bold text-blue-600">4.8</h3>
+        </div>
+      </section>
 
       {/* 🔹 Settings */}
       <section className="w-[90%] mb-6">
@@ -110,37 +145,37 @@ const ProfilePage = () => {
         <div className="flex flex-col divide-y divide-gray-100">
           {[
             {
-              icon: <Bell className="text-rose-700" />,
+              icon: <Bell className=" " />,
               title: "Notifications",
               desc: "Manage your notifications",
               link: "/profile/notify",
             },
             {
-              icon: <Shield className="text-rose-700" />,
+              icon: <Shield className=" " />,
               title: "Privacy & Security",
               desc: "Password and security settings",
               link: "/profile/security",
             },
             {
-              icon: <Paintbrush className="text-rose-700" />,
+              icon: <Paintbrush className=" " />,
               title: "Appearance",
               desc: "Themes and display preferences",
               link: "/profile/appearance",
             },
             {
-              icon: <Globe className="text-rose-700" />,
+              icon: <Globe className=" " />,
               title: "Language",
               desc: "Change app language",
               link: null, // No link — handled inline
             },
             {
-              icon: <HelpCircle className="text-rose-700" />,
+              icon: <HelpCircle className=" " />,
               title: "Help & Support",
               desc: "Get help or contact support",
               link: "/profile/support",
             },
             {
-              icon: <FileText className="text-rose-700" />,
+              icon: <FileText className=" " />,
               title: "Terms & Privacy",
               desc: "Legal information",
               link: "/profile/terms",
@@ -154,7 +189,9 @@ const ProfilePage = () => {
                       {item.icon}
                       <div>
                         <p className="font-medium">{item.title}</p>
-                        <span className="text-xs text-gray-500">{item.desc}</span>
+                        <span className="text-xs text-gray-500">
+                          {item.desc}
+                        </span>
                       </div>
                     </div>
                     <MoveRight className="w-4 h-4 text-gray-400" />

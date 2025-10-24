@@ -27,9 +27,12 @@ const Dashboard = () => {
           The RD Group Connect
         </h1>
         {/* Navbar Icon: Made Circular */}
-        <div className=" cursor-pointer ">
-          <Bell className="w-6 h-6 text-white" />
-        </div>
+     <div className="relative cursor-pointer">
+   <Bell className="w-6 h-6 text-white" />
+   <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
+    3
+  </div>
+</div>
       </nav>
 
       {/* 🔹 Welcome Section */}

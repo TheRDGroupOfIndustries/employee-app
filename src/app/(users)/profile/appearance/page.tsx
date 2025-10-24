@@ -46,8 +46,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ checked, onChange, label })
 // --- Main Appearance Settings Component ---
 const AppearanceSettings: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
-
+ 
   return (
     <div className="min-h-screen bg-gray-100/50 flex flex-col items-center text-gray-800">
       {/* 🔹 Top Navbar */}
@@ -78,45 +77,9 @@ const AppearanceSettings: React.FC = () => {
             </p>
           </div>
 
-          {/* 2️⃣ Font Size Setting */}
-          <div className="pt-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="p-2 rounded-full bg-gray-100">
-                <Type className="w-5 h-5 text-rose-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800">Text Size</h3>
-                <p className="text-sm text-gray-500 mt-0.5">
-                  Adjust the global font size of the application.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-around items-center bg-gray-50 p-2 rounded-xl border">
-              {(["small", "medium", "large"] as const).map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setFontSize(size)}
-                  className={`py-2 px-6 rounded-lg font-medium transition-all w-1/3 text-center capitalize
-                    ${
-                      fontSize === size
-                        ? "bg-rose-600 text-white shadow-md"
-                        : "text-gray-600 hover:bg-gray-200"
-                    }
-                    ${size === "small" ? "text-sm" : size === "large" ? "text-lg" : "text-base"}
-                  `}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
+          
         </div>
-
-        {/* ℹ️ Note about changes */}
-        <div className="mt-8 p-4 bg-rose-50 text-rose-700 rounded-xl border border-rose-200 text-sm">
-          Note: These settings are instantly applied across the application interface.
-        </div>
+ 
       </main>
     </div>
   );
