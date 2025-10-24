@@ -22,9 +22,9 @@ const menuItems = [
   { icon: Briefcase, label: "BoD & Management", href: "/admin/board-management" },
   { icon: FolderKanban, label: "Project Management", href: "/admin/project-management" },
   { icon: Bell, label: "Notifications", href: "/admin/internal-communication" },
-  { icon: Wrench, label: "HR Tools", href: "/hr-tools" },
-  { icon: Calendar, label: "Meetings", href: "/meetings" },
-  { icon: BarChart3, label: "Analytics & Reports", href: "/reports" },
+  { icon: Wrench, label: "HR Tools", href: "/admin/hr-tools" },
+  { icon: Calendar, label: "Meetings", href: "/admin/meetings" },
+  { icon: BarChart3, label: "Analytics & Reports", href: "/admin/reports" },
 ];
 
 export default function Sidebar({
