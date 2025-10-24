@@ -95,24 +95,35 @@ enum Meetingtype {
   DEPARTMENTMEETING
   PROJECTMEETING
 }
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
 // -----------------------------------------------------
 // USER & ROLE
 // -----------------------------------------------------
 
 model User {
   id                   String          @id @default(cuid())
-  name                 String
+  firstName            String
+  lastName             String                
   location             String?
   employeeID           String?         @unique
   depertment           String?
   position             String?
   email                String          @unique
   password             String
+  phone                String?
   role                 UserRole        @default(EMPLOYEE)
   badgeColor           BadgeColor?     @default(YELLOW)
   avatarUrl            String?
   salary               Int?
   stipend              Int?
+  gender               Gender?
+  dateOfBirth         DateTime?
+  dateOfJoining       DateTime?
   documents            String[]
   documentsimg         String[]
   idCard               ID_CARD?        @relation("UserIDCard")
