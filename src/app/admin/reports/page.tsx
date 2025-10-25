@@ -1,14 +1,16 @@
 "use client";
-import React, { useState } from "react";
-import { FilePlus } from "lucide-react";
-import { TabSelector } from "@/src/Components/admin/TabSelector";
 
-const Analysingpage = () => {
+import React, { useState } from "react";
+import { Download } from "lucide-react";
+import { TabSelector } from "@/src/Components/admin/TabSelector";
+import AnalyticsDashboard from "@/src/Components/admin/AnalyticsDashboard";
+
+const AnalysingPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [isScheduleOpen, setScheduleOpen] = useState(false);
+  const [dateFilter, setDateFilter] = useState("30");
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 p-6">
       {/* Title & Buttons */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
         {/* Title */}
@@ -20,11 +22,11 @@ const Analysingpage = () => {
         <div className="flex flex-wrap gap-3 mt-4 sm:mt-0">
           {/* Filter Dropdown */}
           <div className="flex items-center gap-2 bg-white border border-rose-200 shadow-sm px-4 py-2 rounded-lg">
-            
             <select
               id="filter"
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
               className="text-sm border-none outline-none bg-transparent text-gray-700 font-medium"
-              defaultValue="30"
             >
               <option value="today">Today</option>
               <option value="5">Last 5 Days</option>
@@ -34,10 +36,12 @@ const Analysingpage = () => {
             </select>
           </div>
 
-          {/* Schedule Meeting Button */}
-          <button className="flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-rose-700 transition">
-            <FilePlus size={18} />
-            Schedule Meeting
+          {/* Export Reports Button */}
+          <button
+            className="flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-rose-700 transition"
+          >
+            <Download size={18} />
+            Export Reports
           </button>
         </div>
       </div>
@@ -46,24 +50,18 @@ const Analysingpage = () => {
       <TabSelector
         tabs={[
           { id: "overview", label: "Overview" },
-          { id: "attendace", label: "Attendace" },
-          { id: "perforance", label: "Perforance" },
+          { id: "attendance", label: "Attendance" },
+          { id: "performance", label: "Performance" },
           { id: "project", label: "Project" },
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
 
-      {/* {activeTab === " overview" && < overview />}
-      {activeTab === "past-meeting" && <Pastmeetings />}
-      {activeTab === "all-meetings" && <AllMeetings />}
-
-        <ScheduleMeet
-              isOpen={isScheduleOpen}
-              onClose={() => setScheduleOpen(false)}
-            /> */}
+      {/* Render Analytics Dashboard */}
+      {activeTab === "overview" && <AnalyticsDashboard />}
     </main>
   );
 };
 
-export default Analysingpage;
+export default AnalysingPage;
